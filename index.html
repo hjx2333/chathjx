@@ -8,9 +8,8 @@
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
-	<div class='warp'>
-	<article id="fullpage">
-	    <section class="section">
+	<article id="fullpage"><!--article start-->
+	    <section class="section"><!--section_one start-->
 	    	<div class="myself">
 	    		<div class="photo"></div>
 	    		<div class="introduction">
@@ -25,8 +24,8 @@
 	    			</ul>
 	    		</div>
 	    	</div>
-	    </section>
-	    <section class="section">
+	    </section><!--section_one end-->
+	    <section class="section"><!--section_two start-->
 	    	<div class="skill">
 	    		<h2>专业技能</h2>
 	    		<div class="firstSkill">
@@ -46,42 +45,17 @@
 	    			<i>能够运用bootstrap框架进行快速布局，同时使用其API实现图片轮播，折叠，模态框等效果</i>
 	    		</div>
 	    	</div>
-	    </section>
-	    <section class="section">
+	    </section><!--section_two end-->
+	    <section class="section"><!--section_three start-->
 	    	<div class="end">
 	    		<h2>致谢</h2>
 	    		<p>感谢在百忙之中阅读了简历，希望有机会共事^_^</p>
 	    	</div>
-	    </section>
-	</article>
-	</div>
+	    </section><!--section_three end-->
+	</article><!--article end-->
 	<script src="js/jquery-2.1.0.min.js"></script>
 	<script src="js/jquery.easing.min.js"></script>
 	<script src="js/jquery.fullPage.min.js"></script>
-	<script>
-		$(function(){
-    		$("#fullpage").fullpage({
-    			 "verticalCentered": false,
-		         "css3": true,
-		         "sectionsColor": ["#4CB2B7", "#336699", "#695684"],
-		          anchors: ["page1", "page2", "page3"],
-		         "navigation": true,
-		         "navigationPosition": "right",
-		         "navigationTooltips": ["首页", "专业技能", "感谢"],
-		          afterLoad: function(anchorLink, index){
-		          	if(index==1){
-		          		$(".myself").fadeIn(3000);
-		          	}
-		          	else if(index==2){
-		    			$(".skill").fadeIn(3000);
-		    			$(".firstSkill").addClass("a");		
-		          	}
-		          	else {
-		    			$(".end").fadeIn(3000);		          		
-		          	}
-		         }
-    		});
-        });
-	</script>
+	<script src="js/index.js"></script>
 </body>
 </html>
