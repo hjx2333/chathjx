@@ -1,17 +1,11 @@
-.warp {
-	height: 100%;
-	position: relative;
-	transition: all 800ms ease;
-	transform: translate3d(0px,0px,0px);
-}
 .myself {
-	height: 50%;
 	width: 50%;
 	min-width: 510px;
 	position: absolute;
 	top:30%;
-	left:30%;
+	left:25%;
 	display: none;
+	text-align: center;
 }
 .photo {
 	height: 150px;
@@ -28,6 +22,7 @@
 }
 .introduction {
 	display: inline-block;
+	text-align: left;
 	color: #fff;
 	margin-left: 5%;
 	line-height: 1.7em;
@@ -37,13 +32,13 @@
 	margin: 0.3em 0;
 }
 .skill {
-	width: 75%;
+	width: 80%;
 	min-width: 940px;
-	height: 85%;
+	height: 60%;
 	color: #fff;
 	position: absolute;
 	top: 15%;
-	left: 13%;
+	left: 10%;
 	overflow: hidden;
 	display: none;
 }
