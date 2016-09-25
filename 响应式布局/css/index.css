@@ -28,6 +28,7 @@ header h1 {
 	color: #fff;
 	font-size: 1.4rem;
 	margin-right: 5px;
+	
 	transition: background .5s ease;
 	cursor: pointer;
 }
@@ -183,7 +184,7 @@ hr {
 .content {
 	width: 100%;
 	overflow: hidden;
-	zoom: 1;
+	_zoom: 1;
 }
 .aside1 {
 	background: #fff;
@@ -228,7 +229,8 @@ hr {
 	color: #999995;
 	padding: 4px 6px;
 	margin-right: 6px;
-	transition: background .2s;
+	-webkit-transition: background .2s;
+		transition: background .2s;
 	margin-bottom: 6px;
 }
 .span-group a:hover {
@@ -252,5 +254,5 @@ hr {
 	right: 10px;
 	bottom: 20px;
 	opacity: .7;
-	filter:(opacity=70);
+	_filter:(opacity=70);
 }
