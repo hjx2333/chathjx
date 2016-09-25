@@ -28,7 +28,7 @@ header h1 {
 	color: #fff;
 	font-size: 1.4rem;
 	margin-right: 5px;
-	
+	-webkit-transition: background .5s ease;
 	transition: background .5s ease;
 	cursor: pointer;
 }
