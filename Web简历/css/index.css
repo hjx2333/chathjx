@@ -1,9 +1,15 @@
+html {
+	font-size: 62.5%;
+}
+.section {
+	position: relative;
+}
 .myself {
 	width: 50%;
 	min-width: 510px;
 	position: absolute;
-	top:30%;
-	left:25%;
+	top: 30%;
+	left: 25%;
 	display: none;
 	text-align: center;
 }
@@ -15,7 +21,7 @@
 	background-size: cover;
 	display: inline-block;
 	margin-top: 10%;
-	border:2px solid #fff;
+	border: 2px solid #fff;
 }
 .photo:hover {
 	box-shadow: 0 0 40px rgba(0,0,0,0.8);
@@ -25,72 +31,66 @@
 	text-align: left;
 	color: #fff;
 	margin-left: 5%;
-	line-height: 1.7em;
-	font-size: 1.3em;
+	line-height: 2em;
+	font-size: 1.8em;
 }
 .introduction h1 {
-	margin: 0.3em 0;
+	margin: 20px 0;
 }
 .skill {
 	width: 80%;
 	min-width: 940px;
-	height: 60%;
 	color: #fff;
-	position: absolute;
-	top: 15%;
-	left: 10%;
-	overflow: hidden;
+	margin: 0 auto;
+	padding-top: 50px;
 	display: none;
-}
-.skill h2,.end h2 {
-	font-size: 1.8em;
 	text-align: center;
 }
-.firstSkill,.secondSkill {
+.skill h2,.end h2 {
+	font-size: 2.4em;
+	text-align: center;
+}
+.firstSkill{
 	height: 140px;
 	width: 140px;
 	border: 2px solid #ccc;
 	border-radius: 50%;
 	margin-top: 5%;
-	font-size: 1.2em;
+	font-size: 1.8em;
 	display: inline-block;
-	margin: 6% 4%;	
+	margin: 6% 3%;	
 	overflow: hidden;
-	-webkit-transition: all 0.8s ease;
-			transition: all 0.8s ease;
+	-webkit-transition: all .8s ease;
+			transition: all .8s ease;
 }
-.firstSkill p,.secondSkill p {
+.firstSkill p{
 	font-weight: bold;
 	text-align: center;
 	line-height: 7em;
 }
-.firstSkill {
-	margin-left: 8%;
-}
-.firstSkill i,.secondSkill i {
+.firstSkill i{
 	text-align: left;
 	line-height: 1em;
 	font-style: normal;
 	display: none;
 }
-.firstSkill:hover,.secondSkill:hover {
+.firstSkill:hover{
 	border-radius: 6px;
 	height: auto;
 	padding: 10px 4px;
 	box-shadow: 20px 20px 10px rgba(0,0,0,0.6);
 }
-.firstSkill:hover p,.secondSkill:hover p {
+.firstSkill:hover p{
 	display: none;
 }
-.firstSkill:hover i,.secondSkill:hover i {
+.firstSkill:hover i{
 	display:inline;
 }
 .end {
 	width: 40%;
 	height: 20%;
-	position: absolute;
-	left: 30%;
-	top: 30%;
+	margin: 0 auto;
+	padding-top: 100px;
 	color: #fff;
 	display: none;
 }
@@ -99,5 +99,5 @@
 }
 .end p {
 	text-align: center;
-	font-size: 1.3em;
+	font-size: 1.8em;
 }
