@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>聊天室</title>
+    </head>
+    <style type="text/css">
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    img{
+        border:0;
+    }
+    ol, ul ,li{list-style: none;} 
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+        }
+        section {
+            width: 600px;
+            margin: 20px auto;
+            background: #ccc;
+        }
+        .show {
+
+        }
+        .container {
+            width: 560px;
+            height: 200px;
+            margin: 0 auto;
+            padding: 10px;
+            background: #fff;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .content {
+            width: 560px;
+        }
+        textarea {
+            border: 0;
+            margin-left: 4px;
+            font-size: 16px;
+            padding: 4px;
+        }
+        hr { width: 94%; margin: 10px;}
+        h2 { padding: 10px; }
+        #btn-send {
+            text-align: center;
+            position: absolute;
+            bottom: 9px;
+            border: 0;
+            right: 14px;
+            padding: 5px 22px;
+        }
+        .btn-group {
+            padding: 6px;
+            background: #ccc;
+        }
+        .btn {
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: 0;
+            background: lightblue;
+            outline: green;
+            cursor: pointer;
+        }
+        .dialog {
+            position: fixed;
+            background: rgba(0,0,0,.3);
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: 1000000;
+        }
+        .dialog p {
+            color: #fff;
+            font-size: 20px;
+            text-align: center; 
+            position: fixed;
+            top: 200px;
+            left: 50%;
+            transform: translateX(-114px);
+        }
+        .input_name {
+            width: 220px;
+            margin: 245px auto;
+            color: #000;
+            display: none;
+        }
+        h2, .online_num {
+            display: inline-block;
+        }
+        .normal_mess {
+            width: 90%;
+        }
+        img {width: 50%;}
+        .input {
+            position: relative;
+            height: 280px;
+            background: #fff;
+            border: 8px solid #ccc;
+        }
+        button:focus, textarea:focus {
+            outline: 0;
+        }
+        button {
+            cursor: pointer;
+        }
+        input[type='text'] {
+            padding: 8px 4px;
+            border-radius: 4px;
+            outline: 0;
+            border: 0;
+            width: 100%;
+            font-size: 16px;
+        }
+    </style>
+    <body>
+    <div class="dialog">
+        <p>please input your name:</p>
+        <div class="input_name">
+            <input type="text" id="user"/>
+        </div>
+    </div>
+        <section>
+            <div class="show">
+                <h2>聊天室</h2>
+                <div class="online_num"></div>
+                <div class="container">
+                    <ul class="content">
+                    
+                    </ul>
+                </div>              
+            </div>
+            <hr />
+            <div class="input">
+            <div class="btn-group">
+                <button type="button" class="btn btn-emoji">emoji</button>
+                <button type="button" class="btn btn-image">image</button>
+                <input type="file" access='image/*' style="display: none;"/>
+                <button type="button" class="btn btn-clear">clear</button>
+                <button type="button" class="btn btn-clear-all">清屏</button>
+            </div>
+                <textarea name="" id="" cols="68" rows="10" placeholder="enter to send"></textarea>
+                <button type="button" id="btn-send">发送</button>
+            </div>
+        </section>
+        <script type="text/javascript" src="js/socket.io.js"></script>
+        <script type="text/javascript" src='js/jquery.min.js'></script>
+        <script type="text/javascript">
+        $(function(){
+            var system = function(){
+                this.socket = null;
+                this.status = 'off';
+            };
+            
+            system.prototype = {
+                setDate : function(date){
+                    var y = date.getFullYear();
+                    var m = date.getMonth()+1;
+                    m = m<0 ? '0'+m : m;
+                    var d = date.getDate();
+                    d = d<0? '0'+d : d;
+                    var h = date.getHours();
+                    h = h<0? '0'+h : h;
+                    var min = date.getMinutes();
+                    min = min<0? '0'+min : min;
+                    var s = date.getSeconds();
+                    s = s<0? '0'+s : s;
+
+                    return y+'-'+m+'-'+d+' '+h+':'+min+':'+s
+                },
+                init : function(){
+                    this.socket = io.connect();  
+                    var that = this;
+
+                    $(".btn-clear").on('click', function(){
+                        $('textarea').val('');
+                    });
+
+                    $(".btn-clear-all").on('click', function(){
+                        $('.content').html('');
+                    });
+
+                    $("#btn-send").on('click', function(){                      
+                        if($("textarea").val()){
+                            that.socket.emit("postMesg", $("textarea").val());
+                            $('textarea').val('');                             
+                        }
+                    }); 
+
+                    $('.btn-image').on('click', function(){
+                        $("input[type='file']").trigger('click');
+                    })
+
+                    $("input[type='file']").on('change', function(){
+                        var file = this.files[0];
+                        var reader = new FileReader(); 
+                        reader.readAsDataURL(file); 
+                        reader.onload = function(e){  
+                            that.socket.emit("img", this.result);
+                        }                      
+                    });
+
+                    $(document).on('keypress', function(e){
+                        if(e.keyCode == 13){
+                            e.preventDefault();
+                            if($('.dialog').css("display") == 'block'){
+                                var name = $('#user').val();
+                                if(name){                           
+                                    $('.dialog p').text('conecting to server...');  
+                                    $('.input_name').css('display', 'none');
+
+                                    that.socket.emit("login", name);                                        
+                                }
+                            }else {
+                                $('#btn-send').trigger('click');
+                                
+                            } 
+                        }
+                    });
+
+                    this.socket.on("system", function(name, index, type){
+                        if(that.status == 'on'){
+                            if(name){
+                                if(type == 'login'){
+                                    $(".online_num").html("在线人数："+index);
+                                    var html = '<li class="system_mess">欢迎'+name+'进入聊天室</li>';
+                                    $('.content').append(html);                          
+                                 }else if(type == 'logout'){
+                                    $(".online_num").html("在线人数："+index);
+                                    var html = '<li class="system_mess">'+name+'离开进入聊天室</li>';
+                                    $('.content').append(html);   
+                                } 
+                                var scrollTop = $('.content').height() - $('.container').height();
+                                scrollTop = scrollTop >0? scrollTop:0;
+                                $('.container').scrollTop(scrollTop);                      
+                            }
+                        }
+                    });  
+
+                    this.socket.on("connect", function(){
+                        $('.input_name').css('display', 'block');
+                    });
+
+                    this.socket.on("loginSuccess", function(data){
+                        $('.dialog').css('display', 'none');
+                        $('textarea').focus();
+                        that.status = 'on';
+                    });
+
+                    this.socket.on("loginError", function(data){
+                        console.log("用户名已存在！");
+                        $('#user').val('');
+                        $('.dialog p').text('please input your name:');  
+                        $('.input_name').css('display', 'block');
+                        $('.input_name input').focus();
+                    });   
+
+                    this.socket.on("newMsg", function(name, data, type){
+                        
+                           if(type == 'text'){
+                                var html = '<li class="normal_mess">'+that.setDate(new Date())+' '+name+':</li>';        
+                                html += '<li>'+data+'</li>'
+                            }else {
+                                var html = '<li class="normal_mess">'+that.setDate(new Date())+' '+name+':</li>';
+                                html += '<li>'+'<img src="'+data+'" alt=""/>'+'</li>';
+                            }
+                            $('.content').append(html);
+                            setTimeout(function(){
+                                var scrollTop = $('.content').height() - $('.container').height();
+                                scrollTop = scrollTop >0? scrollTop:0;
+                                $('.container').scrollTop(scrollTop);
+                                $('textarea').focus();    
+                            }, 100);  
+                                                                  
+                    });                    
+                }
+            }
+            var sys = new system();
+            sys.init();
+        });  
+        </script>
+    </body>
+</html>
