@@ -291,10 +291,10 @@
                 app.formData.socket.on('disconnect', function() {
                     app.formData.connectType = false;                    
                     console.log("与服务器断开");
-                    setTimeout(function(){
-                        console.log("主动与服务器断开");                        
-                        if(!app.formData.connectType) app.formData.socket.disconnect();
-                    }, 10000);
+                    // setTimeout(function(){
+                    //     console.log("主动与服务器断开");                        
+                    //     if(!app.formData.connectType) app.formData.socket.disconnect();
+                    // }, 10000);
                     //主动关闭连接
                     // app.formData.socket.disconnect();
                 });
