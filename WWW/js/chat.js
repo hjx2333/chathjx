@@ -6,11 +6,7 @@ var app  = {
         socket: null,
         connectType: false,
         url: window.location.href.indexOf('https://chathjx.herokuapp.com/') != -1 ? 'https://chathjx.herokuapp.com/' : 'http://localhost:3000/',
-        user: {
-            username: '',
-            uid: '',
-            img: ''
-        }
+        user: null
     },
     components: {
         initMethod: function(){
@@ -45,13 +41,10 @@ var app  = {
                     if(data.status == 'success'){
                         app.formData.socket = io.connect();
                         app.components.initWatch();                            
-                        console.log(data);
                         $('.dialog').css('display', 'none');
                         $("#username").text(data.username);
                         app.view.onLoadData(data.uid);
-                        app.formData.user.username = data.username;
-                        app.formData.user.uid = data.uid;
-                        app.formData.user.img = data.img;
+                        app.formData.user = data;
                     }else {
                         $('.dialog').css('display', 'block');
                         $('.input_name').css('display', 'block');   
@@ -60,6 +53,7 @@ var app  = {
                 });
             };
 
+            //加载好友列表
             app.view.onLoadData = function(uid){
                 $.post(app.formData.url + 'pagelist', {'uid': uid}, function(jd){
                     var html = '';
@@ -89,7 +83,7 @@ var app  = {
                                 $('.chatBox-content-demo').siblings().css('display', 'none');
                                 $('#chatBox-content-' + app.formData.target).css('display', 'block');
                             }
-
+                            app.view.onSetIndexPoint();
                             //传名字
                             $(".ChatInfoName").text($(this).children(".chat-name").children("p").eq(0).html());
 
@@ -105,6 +99,18 @@ var app  = {
                         })
                     });
                 })
+            }
+
+            //设置首页未读信息小红点
+            app.view.onSetIndexPoint = function(){
+                var num = 0, text = '';
+                $('.message-num').each(function(index, ele){
+                    text = $(ele).text();
+                    text === '' ? text = 0 : text = text;
+                    num += parseInt(text);
+                });
+                $('.chat-message-num').text(num);
+                num > 0 ? $('.chat-message-num').css('display', 'block') : $('.chat-message-num').css('display', 'none');                  
             }
         },
 
@@ -131,14 +137,15 @@ var app  = {
                     if($('.chatBox-kuang').css('display') == 'none' || data.uid != app.formData.target){
                         var parent = '#' + data.uid;
                         $(parent + ' .message-num').text() == '' ? $(parent + ' .message-num').text(1) : $(parent + ' .message-num').text(parseInt($(parent + ' .message-num').text()) + 1);
-                        $(parent + ' .message-num').css('display', 'block');
+                        $(parent + ' .message-num').css('display', 'block');                   
                     }
-                }
+                    app.view.onSetIndexPoint();
+                }            
 
                 //聊天框默认最底部
                 $(document).ready(function () {
                     setTimeout(function(){
-                        $('#chatBox-content-' + app.formData.target).scrollTop($('#chatBox-content-' + app.formData.target)[0].scrollHeight);
+                        $('#chatBox-content-' + app.formData.target).scrollTop($('#chatBox-content-' + (app.formData.target || data.uid))[0].scrollHeight);
                     }, 100);
                 });
             });
@@ -146,10 +153,10 @@ var app  = {
             app.formData.socket.on('disconnect', function() {
                 app.formData.connectType = false;                    
                 console.log("与服务器断开");
-                setTimeout(function(){
-                    console.log("主动与服务器断开");                        
-                    if(!app.formData.connectType) app.formData.socket.disconnect();
-                }, 10000);
+                // setTimeout(function(){
+                //     console.log("主动与服务器断开");                        
+                //     if(!app.formData.connectType) app.formData.socket.disconnect();
+                // }, 10000);
                 //主动关闭连接
                 // app.formData.socket.disconnect();
             });
