@@ -1,2 +1,2 @@
-# chathjx
-即时通信
+# node.js + Web Socket即时通信
+
