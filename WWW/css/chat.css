@@ -405,7 +405,7 @@
     font-size: 0;
 }
 .chatBox-send>div button{
-    padding: 1px 5px;
+    padding: 3px 6px;
     margin-left: 3px;
 }
 .chatBox-send>div label{

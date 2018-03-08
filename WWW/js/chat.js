@@ -5,6 +5,7 @@ var app  = {
         target_img: '',
         socket: null,
         connectType: false,
+        url: window.location.href.indexOf('https://chathjx.herokuapp.com/') != -1 ? 'https://chathjx.herokuapp.com/' : 'http://localhost:3000/',
         user: {
             username: '',
             uid: '',
@@ -40,7 +41,7 @@ var app  = {
             
             //登录
             app.view.loginValidate = function(password){
-                $.post('http://localhost:3000/loginValidate', {'password': password}, function(data){
+                $.post(app.formData.url + 'loginValidate', {'password': password}, function(data){
                     if(data.status == 'success'){
                         app.formData.socket = io.connect();
                         app.components.initWatch();                            
@@ -60,7 +61,7 @@ var app  = {
             };
 
             app.view.onLoadData = function(uid){
-                $.post('http://localhost:3000/pagelist', {'uid': uid}, function(jd){
+                $.post(app.formData.url + 'pagelist', {'uid': uid}, function(jd){
                     var html = '';
                     for(i in jd.data){
                         html += '<div class="chat-list-people" id="'+ jd.data[i].uid +'"><div><img src="'+ jd.data[i].img +'" alt="头像"\/>' +
