@@ -2,7 +2,7 @@
   "name": "hjxchat",
   "version": "1.0.0",
   "description": "node",
-  "main": "server_config.js",
+  "main": "server.js",
   "engines": {
     "node": "8.2.1"
   },
@@ -14,10 +14,9 @@
     "supervisor": "^0.12.0",
     "ws": "^3.3.3"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server_config.js"
+    "start": "node server.js"
   },
   "keywords": [
     "node"
